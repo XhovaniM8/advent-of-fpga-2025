@@ -1,0 +1,43 @@
+name: Test Designs
+
+on: [push, pull_request]
+
+jobs:
+  test-verilog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install Verilator
+        run: sudo apt-get update && sudo apt-get install -y verilator
+      
+      - name: Test all Verilog files
+        run: |
+          for file in designs/*.{sv,v}; do
+            [ -f "$file" ] || continue
+            echo "Testing $file"
+            verilator --lint-only -Wall "$file"
+          done
+
+  test-hardcaml:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: ocaml/setup-ocaml@v2
+        if: hashFiles('designs/*.ml') != ''
+        with:
+          ocaml-compiler: 5.1.x
+      
+      - name: Install Hardcaml
+        if: hashFiles('designs/*.ml') != ''
+        run: opam install -y hardcaml
+      
+      - name: Test Hardcaml files
+        if: hashFiles('designs/*.ml') != ''
+        run: |
+          for file in designs/*.ml; do
+            [ -f "$file" ] || continue
+            echo "Testing $file"
+            opam exec -- ocamlfind ocamlc -package hardcaml -c "$file"
+          done
