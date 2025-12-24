@@ -12,16 +12,9 @@ module I = struct
 end
 
 module O = struct
-  type 'a t =
-    { sum : 'a [@bits 8]
-    }
-  [@@deriving sexp_of, hardcaml]
+  type 'a t = { sum : 'a [@bits 8] } [@@deriving sexp_of, hardcaml]
 end
 
 let create _scope (i : _ I.t) =
   let sum = i.a +: i.b in
   { O.sum }
-
-let circuit =
-  let module Circuit = Circuit.With_interface (I) (O) in
-  Circuit.create_exn ~name:"adder" create
