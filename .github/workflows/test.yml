@@ -66,10 +66,14 @@ jobs:
         uses: ocaml/setup-ocaml@v2
         with:
           ocaml-compiler: 5.1.x
+          opam-repositories: |
+            default: https://opam.ocaml.org
       
       - name: Install Hardcaml
         if: steps.check.outputs.found == 'true'
-        run: opam install -y hardcaml ppx_jane core stdio
+        run: |
+          opam update
+          opam install -y hardcaml
       
       - name: Test Hardcaml files
         if: steps.check.outputs.found == 'true'
@@ -79,7 +83,7 @@ jobs:
           
           for file in designs/*.ml; do
             echo "Testing $file"
-            if opam exec -- ocamlfind ocamlc -package hardcaml,core -c "$file" 2>&1; then
+            if opam exec -- ocamlfind ocamlc -package hardcaml -c "$file" 2>&1; then
               echo "- PASS: \`$(basename $file)\`" >> $GITHUB_STEP_SUMMARY
             else
               echo "- FAIL: \`$(basename $file)\`" >> $GITHUB_STEP_SUMMARY
