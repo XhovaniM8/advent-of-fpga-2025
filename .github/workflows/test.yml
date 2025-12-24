@@ -28,14 +28,12 @@ jobs:
           for file in designs/*.sv designs/*.v; do
             echo "Testing $file"
             
-            # Compile check
             if verilator --lint-only "$file" 2>&1 | tee compile.log; then
               COMPILE="PASS"
             else
               COMPILE="FAIL"
             fi
             
-            # Lint check
             if verilator --lint-only -Wall -Wno-DECLFILENAME "$file" 2>&1 | grep -qi "error"; then
               LINT="ERROR"
             elif grep -qi "warning" compile.log; then
@@ -48,7 +46,7 @@ jobs:
           done
 
   test-hardcaml:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       
