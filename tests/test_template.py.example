@@ -1,0 +1,55 @@
+"""
+Template for testing a Hardcaml/Verilog design
+
+Copy this file and rename to test_your_design.py
+"""
+import pytest
+import os
+import subprocess
+
+DESIGN_NAME = "your_design"  # Change this
+DESIGN_FILE = f"{DESIGN_NAME}.ml"  # or .sv
+
+def test_design_exists(designs_dir):
+    """Test that design file exists"""
+    file_path = os.path.join(designs_dir, DESIGN_FILE)
+    assert os.path.exists(file_path), f"{DESIGN_FILE} not found"
+
+def test_design_compiles(designs_dir):
+    """Test that design compiles"""
+    file_path = os.path.join(designs_dir, DESIGN_FILE)
+    
+    if DESIGN_FILE.endswith('.ml'):
+        # Hardcaml
+        result = subprocess.run(
+            ['opam', 'exec', '--', 'ocamlfind', 'ocamlc',
+             '-package', 'hardcaml', '-c', file_path],
+            capture_output=True
+        )
+    else:
+        # Verilog
+        result = subprocess.run(
+            ['verilator', '--lint-only', file_path],
+            capture_output=True
+        )
+    
+    assert result.returncode == 0, "Compilation failed"
+
+def test_sample_input():
+    """Test with AoC sample input"""
+    # Add your sample test data
+    sample_input = []
+    expected_output = None
+    
+    # Run simulation
+    # actual_output = simulate(sample_input)
+    
+    # assert actual_output == expected_output
+    pass
+
+def test_full_input():
+    """Test with full AoC puzzle input"""
+    # Load from input file
+    # actual_output = simulate(full_input)
+    # assert actual_output == your_answer
+    pass
