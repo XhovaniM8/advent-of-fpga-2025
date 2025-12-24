@@ -61,19 +61,17 @@ jobs:
             echo "found=false" >> $GITHUB_OUTPUT
           fi
       
-      - name: Setup OCaml
+      - name: Use OCaml
         if: steps.check.outputs.found == 'true'
         uses: ocaml/setup-ocaml@v2
         with:
-          ocaml-compiler: 5.1.x
-          opam-repositories: |
-            default: https://opam.ocaml.org
+          ocaml-compiler: 4.14.x
       
       - name: Install Hardcaml
         if: steps.check.outputs.found == 'true'
         run: |
-          opam update
-          opam install -y hardcaml
+          opam pin add -n hardcaml git+https://github.com/janestreet/hardcaml.git#master
+          opam install hardcaml -y
       
       - name: Test Hardcaml files
         if: steps.check.outputs.found == 'true'
