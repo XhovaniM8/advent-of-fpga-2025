@@ -88,21 +88,32 @@ jobs:
 
   run-tests:
     runs-on: ubuntu-latest
-    if: hashFiles('tests/*.py') != ''
     steps:
       - uses: actions/checkout@v4
       
+      - name: Check for test files
+        id: check
+        run: |
+          if ls tests/*.py 2>/dev/null; then
+            echo "found=true" >> $GITHUB_OUTPUT
+          else
+            echo "found=false" >> $GITHUB_OUTPUT
+          fi
+      
       - uses: actions/setup-python@v5
+        if: steps.check.outputs.found == 'true'
         with:
           python-version: '3.11'
       
       - name: Install dependencies
+        if: steps.check.outputs.found == 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y iverilog verilator
           pip install cocotb pytest
       
       - name: Run functional tests
+        if: steps.check.outputs.found == 'true'
         run: |
           cd tests
           pytest -v . || true
