@@ -1,0 +1,27 @@
+# Build / sim outputs
+*.vcd
+*.wlf
+*.log
+*.out
+simv
+work/
+build/
+obj_dir/
+
+# Vivado / Quartus / tools
+*.jou
+*.str
+*.cache/
+*.runs/
+*.sim/
+*.xpr
+*.qpf
+*.qsf
+.db/
+.dcp
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/

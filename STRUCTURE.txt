@@ -1,0 +1,15 @@
+./.github/workflows/synthesis.yml
+./.github/workflows/test.yml
+./README.md
+./SETUP_COMPLETE.md
+./common/utils/cocotb_utils.py
+./docs/GETTING_STARTED.md
+./docs/QUICK_REFERENCE.md
+./problems/day01/README.md
+./problems/day01/rtl/solution.sv
+./problems/day01/testbench/Makefile
+./problems/day01/testbench/test_solution.py
+./problems/template/README.md
+./problems/template/rtl/solution.sv
+./problems/template/testbench/Makefile
+./problems/template/testbench/test_solution.py
