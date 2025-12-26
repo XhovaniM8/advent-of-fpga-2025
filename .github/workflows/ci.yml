@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  python-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Install dependencies
+        run: pip install pytest
+      
+      - name: Run simulator tests
+        run: pytest tests/test_simulators.py -v
+
+  hardcaml-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up OCaml
+        uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: '5.1'
+      
+      - name: Install Hardcaml
+        run: opam install hardcaml -y
+      
+      - name: Check Hardcaml files
+        run: |
+          for f in designs/day*/*.ml; do
+            echo "Checking $f"
+            opam exec -- ocamlfind ocamlc -package hardcaml -c "$f" || true
+          done

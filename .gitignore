@@ -1,69 +1,33 @@
-# macOS
-.DS_Store
-.AppleDouble
-.LSOverride
-._*
-
-# Linux
-*~
-.directory
-
-# Windows
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-
-# Editors
-.vscode/
-.idea/
-*.swp
-*.swo
-*.swn
-*.bak
-
 # Python
 __pycache__/
 *.py[cod]
 *$py.class
-*.so
-.Python
 .pytest_cache/
 *.egg-info/
+dist/
+build/
 
-# Simulation
-*.vcd
-*.fst
-*.vvp
-*.lxt
-*.ghw
-sim_build/
-*.log
-transcript
-work/
-modelsim.ini
-
-# Synthesis
-*.json
-*.blif
-*.asc
-*.bin
-*.bit
-*.rpt
-.Xil/
-*.jou
-
-# Build artifacts
-obj_dir/
+# OCaml
 _build/
+*.cmo
+*.cmi
+*.cmx
 *.o
 *.a
-*.cmi
-*.cmo
-*.cmx
-*.d
-*.mk
+*.byte
+*.native
 
-# Temporary
-*.tmp
-tmp/
-temp/
+# Verilog simulation
+*.vcd
+*.fst
+obj_dir/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
